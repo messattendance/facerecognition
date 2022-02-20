@@ -19,4 +19,4 @@ data = {
     "name": "Mess Attendace System"
 }
 
-db.child('Breakfast').push(data)
+db.child('Lunch').push(data)
