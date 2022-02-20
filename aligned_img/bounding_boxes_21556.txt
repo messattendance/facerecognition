@@ -1,0 +1,8 @@
+./aligned_img\venkat\frame56.png 660 205 998 625
+./aligned_img\venkat\frame57.png 667 194 1013 618
+./aligned_img\venkat\frame58.png 678 194 1011 611
+./aligned_img\venkat\frame59.png 682 202 1013 615
+./aligned_img\venkat\frame60.png 690 196 1026 617
+./aligned_img\venkat\frame61.png 699 194 1028 616
+./aligned_img\venkat\frame62.png 708 196 1037 616
+./aligned_img\venkat\frame63.png 707 195 1037 622
