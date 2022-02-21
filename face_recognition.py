@@ -9,7 +9,34 @@ import os
 import time
 import pickle
 from PIL import Image
-import tensorflow.compat.v1 as tf
+
+
+from integrate import db 
+
+
+import tensorflow.compat.v1 as tf 
+from datetime import datetime
+
+now = datetime.now()
+
+today = now.strftime("%d/%m/%Y")
+timestamp = now.strftime("%H:%M:%S")
+hours  = int(now.strftime("%H"))
+
+typeofmeal=""
+if(hours>=7 and hours<=9):
+    typeofmeal = "Breakfast"
+elif(hours>=12 and hours<=14):
+    typeofmeal = "Lunch"
+elif(hours>=16 and hours<=18):
+    typeofmeal = "Snacks"
+elif(hours>=19 and hours<=21):
+    typeofmeal = "Dinner"
+
+
+
+
+
 video=0#'http://192.168.43.1:8080/video'#'http://192.168.2.69:8080/video'
 modeldir = './model/20180402-114759.pb'
 classifier_filename = './class/classifier.pkl'
@@ -83,6 +110,14 @@ with tf.Graph().as_default():
                             for H_i in HumanNames:
                                 if HumanNames[best_class_indices[0]] == H_i:
                                     result_names = HumanNames[best_class_indices[0]]
+                                    data = {
+                                        "name": HumanNames[best_class_indices[0]] ,
+                                        "exit_time" : timestamp ,
+                                        "typeofmeal" : typeofmeal
+                                    }
+                                    if(typeofmeal):
+                                        db.collection(today.replace('/','-')+' '+typeofmeal).document(HumanNames[best_class_indices[0]]).set(data)
+                                    
                                     print("Predictions : [ name: {} , accuracy: {:.3f} ]".format(HumanNames[best_class_indices[0]],best_class_probabilities[0]))
                                     cv2.rectangle(frame, (xmin, ymin-20), (xmax, ymin-2), (0, 255,255), -1)
                                     cv2.putText(frame, result_names, (xmin,ymin-5), cv2.FONT_HERSHEY_COMPLEX_SMALL,
@@ -98,7 +133,10 @@ with tf.Graph().as_default():
                         print("error")
                        
             endtimer = time.time()
-            fps = 1/(endtimer-timer)
+            if (endtimer-timer==0):
+                pass
+            else:
+                fps = 1/(endtimer-timer)
             cv2.rectangle(frame,(15,30),(135,60),(0,255,255),-1)
             cv2.putText(frame, "fps: {:.2f}".format(fps), (20, 50),cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
             cv2.imshow('Face Recognition', frame)
