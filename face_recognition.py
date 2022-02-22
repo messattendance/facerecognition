@@ -37,7 +37,7 @@ elif(hours>=19 and hours<=21):
 
 
 
-video=0#'http://192.168.43.1:8080/video'#'http://192.168.2.69:8080/video'
+video='http://192.168.43.1:8080/video'#'http://192.168.2.69:8080/video'
 modeldir = './model/20180402-114759.pb'
 classifier_filename = './class/classifier.pkl'
 npy='./npy'
